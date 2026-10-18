@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QRForge</title>
+  <meta name="description" content="Generator QR code dengan logo & teks di tengah, gradien, frame, batch ZIP, dan banyak fitur lainnya.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="aurora" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+  <header class="topbar glass">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+        <defs>
+          <linearGradient id="bm" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#8b6cff"/><stop offset="1" stop-color="#22d3ee"/>
+          </linearGradient>
+        </defs>
+        <rect x="2" y="2" width="11" height="11" rx="3.5" fill="none" stroke="url(#bm)" stroke-width="2.6"/>
+        <rect x="19" y="2" width="11" height="11" rx="3.5" fill="none" stroke="url(#bm)" stroke-width="2.6"/>
+        <rect x="2" y="19" width="11" height="11" rx="3.5" fill="none" stroke="url(#bm)" stroke-width="2.6"/>
+        <circle cx="7.5" cy="7.5" r="2" fill="url(#bm)"/>
+        <circle cx="24.5" cy="7.5" r="2" fill="url(#bm)"/>
+        <circle cx="7.5" cy="24.5" r="2" fill="url(#bm)"/>
+        <circle cx="21.5" cy="21.5" r="2.4" fill="url(#bm)"/>
+        <circle cx="27.5" cy="27.5" r="2.4" fill="url(#bm)"/>
+        <circle cx="27.5" cy="21.5" r="1.6" fill="url(#bm)"/>
+      </svg>
+      <div>
+        <h1>QRForge</h1>
+        <p>QR Code Generator</p>
+      </div>
+    </div>
+    <div class="top-actions">
+      <button id="btnTheme" class="icon-btn" type="button" title="Ganti mode terang/gelap" aria-label="Ganti mode terang atau gelap">◐</button>
+      <button id="btnReset" class="icon-btn" type="button" title="Reset semua pengaturan" aria-label="Reset semua pengaturan">↺</button>
+    </div>
+  </header>
+
+  <main class="layout">
+
+    <!-- ============ PANEL PENGATURAN ============ -->
+    <section class="panel glass" aria-label="Pengaturan QR code">
+      <div class="tabs" role="tablist">
+        <button class="tab active" role="tab" type="button" data-tab="content">Konten</button>
+        <button class="tab" role="tab" type="button" data-tab="design">Desain</button>
+        <button class="tab" role="tab" type="button" data-tab="logo">Logo &amp; teks</button>
+        <button class="tab" role="tab" type="button" data-tab="frame">Frame</button>
+        <button class="tab" role="tab" type="button" data-tab="more">Riwayat &amp; batch</button>
+      </div>
+
+      <!-- KONTEN -->
+      <div class="tab-pane" id="pane-content">
+        <div class="group">
+          <h3>Apa yang ingin kamu bagikan?</h3>
+          <div id="typeGrid" class="type-grid"></div>
+        </div>
+        <div class="group">
+          <div id="fields" class="fields"></div>
+        </div>
+      </div>
+
+      <!-- DESAIN -->
+      <div class="tab-pane" id="pane-design" hidden>
+        <div class="group">
+          <div class="group-head">
+            <h3>Tema cepat</h3>
+            <button class="btn ghost small" id="btnRandom" type="button">🎲 Acak gaya</button>
+          </div>
+          <div class="presets" id="presetGrid"></div>
+        </div>
+
+        <div class="group">
+          <h3>Bentuk titik</h3>
+          <div class="seg" data-seg="dotsType">
+            <button type="button" data-v="square">Kotak</button>
+            <button type="button" data-v="rounded">Membulat</button>
+            <button type="button" data-v="dots">Titik</button>
+            <button type="button" data-v="extra-rounded">Ekstra bulat</button>
+            <button type="button" data-v="classy">Klasik</button>
+            <button type="button" data-v="classy-rounded">Klasik bulat</button>
+          </div>
+        </div>
+
+        <div class="group two">
+          <div>
+            <h3>Bingkai sudut</h3>
+            <div class="seg" data-seg="cornerSquareType">
+              <button type="button" data-v="square">Kotak</button>
+              <button type="button" data-v="extra-rounded">Bulat</button>
+              <button type="button" data-v="dot">Lingkaran</button>
+            </div>
+          </div>
+          <div>
+            <h3>Titik sudut</h3>
+            <div class="seg" data-seg="cornerDotType">
+              <button type="button" data-v="square">Kotak</button>
+              <button type="button" data-v="dot">Lingkaran</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="group">
+          <h3>Warna titik</h3>
+          <div class="seg" data-seg="fgMode">
+            <button type="button" data-v="solid">Satu warna</button>
+            <button type="button" data-v="gradient">Gradien</button>
+          </div>
+          <div class="color-row">
+            <label class="color-pick"><input type="color" data-bind="fg1" aria-label="Warna utama"><span>Warna utama</span></label>
+            <label class="color-pick" data-show="fgMode=gradient"><input type="color" data-bind="fg2" aria-label="Warna kedua"><span>Warna kedua</span></label>
+          </div>
+          <div data-show="fgMode=gradient">
+            <div class="seg small-seg" data-seg="gradType">
+              <button type="button" data-v="linear">Linear</button>
+              <button type="button" data-v="radial">Radial</button>
+            </div>
+          </div>
+          <label class="range" data-show="fgMode=gradient&&gradType=linear">
+            <span>Arah gradien</span><output data-out="gradAngle" data-unit="°"></output>
+            <input type="range" min="0" max="360" step="5" data-bind="gradAngle">
+          </label>
+        </div>
+
+        <div class="group">
+          <label class="switch">
+            <input type="checkbox" data-bind="cornerCustom">
+            <span class="knob"></span>
+            <span class="switch-text">Warna sudut berbeda</span>
+          </label>
+          <div class="color-row" data-show="cornerCustom">
+            <label class="color-pick"><input type="color" data-bind="cornerSqColor" aria-label="Warna bingkai sudut"><span>Bingkai sudut</span></label>
+            <label class="color-pick"><input type="color" data-bind="cornerDotColor" aria-label="Warna titik sudut"><span>Titik sudut</span></label>
+          </div>
+        </div>
+
+        <div class="group">
+          <h3>Latar belakang</h3>
+          <div class="color-row">
+            <label class="color-pick"><input type="color" data-bind="bg" aria-label="Warna latar"><span>Warna latar</span></label>
+          </div>
+          <label class="switch">
+            <input type="checkbox" data-bind="bgTransparent">
+            <span class="knob"></span>
+            <span class="switch-text">Latar transparan (PNG, WebP, SVG)</span>
+          </label>
+          <label class="range">
+            <span>Jarak tepi</span><output data-out="margin" data-unit="%"></output>
+            <input type="range" min="0" max="12" step="1" data-bind="margin">
+          </label>
+        </div>
+
+        <div class="group">
+          <h3>Ketahanan error</h3>
+          <select class="select" data-bind="ec" aria-label="Level koreksi error">
+            <option value="auto">Otomatis (disarankan)</option>
+            <option value="L">L – 7% (QR paling sederhana)</option>
+            <option value="M">M – 15%</option>
+            <option value="Q">Q – 25%</option>
+            <option value="H">H – 30% (paling tahan, cocok untuk logo)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- LOGO & TEKS -->
+      <div class="tab-pane" id="pane-logo" hidden>
+        <div class="group">
+          <h3>Isi tengah QR</h3>
+          <div class="seg" data-seg="logoMode">
+            <button type="button" data-v="none">Kosong</button>
+            <button type="button" data-v="image">Logo gambar</button>
+            <button type="button" data-v="text">Teks / emoji</button>
+          </div>
+        </div>
+
+        <div class="group" data-show="logoMode=image">
+          <label class="dropzone" id="dropzone">
+            <input type="file" id="logoFile" accept="image/*" hidden>
+            <div class="dz-thumb" id="dzThumb"></div>
+            <div class="dz-text">
+              <strong id="dzTitle">Tarik dan lepas logo di sini</strong>
+              <span>atau klik untuk memilih file (PNG, JPG, SVG, WebP)</span>
+            </div>
+          </label>
+          <button class="btn ghost small" id="btnRemoveLogo" type="button" hidden>Hapus logo</button>
+        </div>
+
+        <div class="group" data-show="logoMode=text">
+          <label class="field">
+            <span>Teks atau emoji</span>
+            <input type="text" data-bind="logoText" maxlength="14" placeholder="Contoh: QR, BRAND, ☕" autocomplete="off">
+          </label>
+          <div class="emoji-row" id="emojiRow">
+            <button type="button" data-e="⭐">⭐</button>
+            <button type="button" data-e="❤️">❤️</button>
+            <button type="button" data-e="🔥">🔥</button>
+            <button type="button" data-e="⚡">⚡</button>
+            <button type="button" data-e="☕">☕</button>
+            <button type="button" data-e="🛒">🛒</button>
+            <button type="button" data-e="🎵">🎵</button>
+            <button type="button" data-e="📍">📍</button>
+            <button type="button" data-e="📱">📱</button>
+            <button type="button" data-e="🍔">🍔</button>
+          </div>
+          <div class="two-col">
+            <label class="field">
+              <span>Jenis huruf</span>
+              <select class="select" data-bind="logoFont">
+                <option value="sans">Sans modern</option>
+                <option value="serif">Serif elegan</option>
+                <option value="mono">Monospace</option>
+                <option value="display">Tebal impak</option>
+                <option value="script">Tulisan tangan</option>
+              </select>
+            </label>
+            <label class="color-pick tall"><input type="color" data-bind="logoTextColor" aria-label="Warna teks"><span>Warna teks</span></label>
+          </div>
+          <label class="switch">
+            <input type="checkbox" data-bind="logoBold">
+            <span class="knob"></span>
+            <span class="switch-text">Huruf tebal</span>
+          </label>
+        </div>
+
+        <div class="group" data-show="logoMode!=none">
+          <h3>Latar logo</h3>
+          <div class="seg" data-seg="logoShape">
+            <button type="button" data-v="none">Tanpa latar</button>
+            <button type="button" data-v="circle">Lingkaran</button>
+            <button type="button" data-v="rounded">Membulat</button>
+            <button type="button" data-v="square">Kotak</button>
+          </div>
+          <div class="color-row" data-show="logoShape!=none">
+            <label class="color-pick"><input type="color" data-bind="logoBg" aria-label="Warna latar logo"><span>Warna latar</span></label>
+            <label class="color-pick"><input type="color" data-bind="logoBorderColor" aria-label="Warna garis tepi logo"><span>Warna garis tepi</span></label>
+          </div>
+          <label class="range" data-show="logoShape!=none">
+            <span>Tebal garis tepi</span><output data-out="logoBorderWidth" data-unit="%"></output>
+            <input type="range" min="0" max="10" step="1" data-bind="logoBorderWidth">
+          </label>
+          <label class="range">
+            <span>Ruang di dalam latar</span><output data-out="logoPadding" data-unit="%"></output>
+            <input type="range" min="0" max="30" step="1" data-bind="logoPadding">
+          </label>
+          <label class="range">
+            <span>Ukuran logo di QR</span><output data-out="logoSize" data-unit="%"></output>
+            <input type="range" min="20" max="100" step="5" data-bind="logoSize">
+          </label>
+          <label class="range">
+            <span>Jarak logo ke titik QR</span><output data-out="logoMargin" data-unit="px"></output>
+            <input type="range" min="0" max="20" step="1" data-bind="logoMargin">
+          </label>
+          <p class="note">Saat ada logo, ketahanan error otomatis naik ke level H supaya QR tetap terbaca.</p>
+        </div>
+      </div>
+
+      <!-- FRAME -->
+      <div class="tab-pane" id="pane-frame" hidden>
+        <div class="group">
+          <h3>Gaya frame</h3>
+          <div class="seg" data-seg="frame">
+            <button type="button" data-v="none">Tanpa frame</button>
+            <button type="button" data-v="solid">Bingkai warna</button>
+            <button type="button" data-v="label">Bingkai + label</button>
+          </div>
+        </div>
+        <div class="group" data-show="frame=label">
+          <label class="field">
+            <span>Teks label</span>
+            <input type="text" data-bind="frameLabel" maxlength="28" placeholder="SCAN ME" autocomplete="off">
+          </label>
+          <div class="emoji-row" id="labelRow">
+            <button type="button" data-t="SCAN ME">SCAN ME</button>
+            <button type="button" data-t="PINDAI SAYA">PINDAI SAYA</button>
+            <button type="button" data-t="FOLLOW US">FOLLOW US</button>
+            <button type="button" data-t="MENU DIGITAL">MENU DIGITAL</button>
+            <button type="button" data-t="JOIN WIFI">JOIN WIFI</button>
+          </div>
+        </div>
+        <div class="group" data-show="frame!=none">
+          <div class="color-row">
+            <label class="color-pick"><input type="color" data-bind="frameColor" aria-label="Warna frame"><span>Warna frame</span></label>
+            <label class="color-pick" data-show="frame=label"><input type="color" data-bind="frameTextColor" aria-label="Warna teks label"><span>Warna label</span></label>
+          </div>
+        </div>
+        <p class="note pad">Frame ikut tersimpan di hasil unduhan PNG, JPG, WebP, dan SVG.</p>
+      </div>
+
+      <!-- RIWAYAT & BATCH -->
+      <div class="tab-pane" id="pane-more" hidden>
+        <div class="group">
+          <div class="group-head">
+            <h3>Riwayat</h3>
+            <button class="btn ghost small" id="btnClearHistory" type="button">Hapus semua</button>
+          </div>
+          <div id="historyGrid" class="history-grid"></div>
+          <p class="note" id="historyEmpty">Belum ada riwayat. QR yang kamu unduh atau simpan akan muncul di sini.</p>
+        </div>
+
+        <div class="group">
+          <h3>Batch: banyak QR sekaligus</h3>
+          <p class="note">Satu baris = satu QR. Memakai gaya, logo, dan frame yang sedang aktif, lalu diunduh sebagai ZIP (maksimal 100 baris).</p>
+          <textarea id="batchInput" class="textarea" rows="5" placeholder="https://contoh.com/produk-1&#10;https://contoh.com/produk-2&#10;https://contoh.com/produk-3"></textarea>
+          <div class="btn-row">
+            <button class="btn primary" id="btnBatch" type="button">Buat &amp; unduh ZIP</button>
+            <span class="note" id="batchStatus" role="status"></span>
+          </div>
+        </div>
+
+        <div class="group">
+          <h3>Simpan pengaturan</h3>
+          <p class="note">Bawa gaya QR favoritmu ke perangkat lain.</p>
+          <div class="btn-row">
+            <button class="btn ghost" id="btnExportSettings" type="button">Ekspor JSON</button>
+            <button class="btn ghost" id="btnImportSettings" type="button">Impor JSON</button>
+            <input type="file" id="importFile" accept="application/json,.json" hidden>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PREVIEW ============ -->
+    <aside class="preview glass" aria-label="Pratinjau dan unduhan">
+      <div class="stage" id="stage">
+        <canvas id="previewCanvas" width="480" height="480" aria-label="Pratinjau QR code"></canvas>
+        <div class="stage-note" id="stageNote" hidden></div>
+      </div>
+
+      <div class="scan-meter">
+        <div class="meter-head"><span>Kemudahan dipindai</span><strong id="meterLabel">–</strong></div>
+        <div class="meter-bar"><i id="meterFill"></i></div>
+        <ul id="meterTips" class="tips"></ul>
+      </div>
+
+      <div class="facts" id="facts"></div>
+
+      <div class="export-row">
+        <label class="field compact">
+          <span>Format</span>
+          <select class="select" data-bind="exportFormat">
+            <option value="png">PNG</option>
+            <option value="jpeg">JPG</option>
+            <option value="webp">WebP</option>
+            <option value="svg">SVG (vektor)</option>
+          </select>
+        </label>
+        <label class="field compact">
+          <span>Resolusi</span>
+          <select class="select" data-bind="exportSize" data-num>
+            <option value="512">512 px</option>
+            <option value="1024">1024 px</option>
+            <option value="2048">2048 px</option>
+            <option value="4096">4096 px</option>
+          </select>
+        </label>
+      </div>
+
+      <button class="btn primary block" id="btnDownload" type="button">Unduh QR code</button>
+      <div class="btn-row three">
+        <button class="btn ghost" id="btnCopy" type="button">Salin</button>
+        <button class="btn ghost" id="btnShare" type="button">Bagikan</button>
+        <button class="btn ghost" id="btnSave" type="button">Simpan</button>
+      </div>
+      <p class="hint">Pintasan: Ctrl + S untuk mengunduh</p>
+    </aside>
+  </main>
+
+  <footer class="foot">Semua proses berjalan di browser kamu. Data QR tidak dikirim ke server mana pun.</footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="qr-code-styling.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
